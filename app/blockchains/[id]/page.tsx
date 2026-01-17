@@ -3,6 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
+
+// Helper function to translate with parameters
+const translateWithParams = (str: string, params: Record<string, string>): string => {
+  let result = str;
+  for (const [key, value] of Object.entries(params)) {
+    result = result.replace(new RegExp(`{{${key}}}`, 'g'), value);
+  }
+  return result;
+};
 
 // ---------------------------------------------------------
 // MOCK BLOCKCHAIN HEADER DATA
@@ -78,6 +88,7 @@ const mockNetworkClients = [
 // ---------------------------------------------------------
 
 export default function BlockchainExplorer({ params }: { params: { id: string } }) {
+  const { t } = useLanguage();
   const blockchainId = params.id || 'bitcoin';
   const mockBlockchain = blockchainData[blockchainId as keyof typeof blockchainData] || blockchainData.bitcoin;
   const [tab, setTab] = useState<"blocks" | "richlist" | "overview" | "extraction" | "network" | "market" | "difficulty" | "inflation" | "about">("blocks");
@@ -88,7 +99,7 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
       {/* BACK LINK */}
       <Link href="/blockchains" className="inline-flex items-center text-primary mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Blockchains
+        {t("blockchain.back_to_blockchains")}
       </Link>
 
       {/* HEADER */}
@@ -114,7 +125,7 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
             <h1 className="text-3xl font-bold">{mockBlockchain.name}</h1>
             <span className="px-3 py-1 text-sm rounded-full bg-muted">{mockBlockchain.symbol}</span>
           </div>
-          <p className="text-muted-foreground mt-1">Blockchain Explorer</p>
+          <p className="text-muted-foreground mt-1">{t("blockchain.blockchain_explorer")}</p>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -124,27 +135,27 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
             rel="noopener noreferrer"
             className="px-4 py-2 border rounded-md hover:bg-muted transition"
           >
-            Visit Website
+            {t("blockchain.visit_website")}
           </a>
         </div>
       </div>
 
       {/* TOP STATS */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-        <Stat title="BTC Price" value={mockBlockchain.price} />
-        <Stat title="USD Price" value={mockBlockchain.usdPrice} />
-        <Stat title="Market Cap" value={mockBlockchain.marketCap} />
-        <Stat title="Hashrate" value={mockBlockchain.hashrate} />
+        <Stat title={t("blockchain.btc_price")} value={mockBlockchain.price} />
+        <Stat title={t("blockchain.usd_price")} value={mockBlockchain.usdPrice} />
+        <Stat title={t("blockchain.market_cap")} value={mockBlockchain.marketCap} />
+        <Stat title={t("blockchain.hashrate")} value={mockBlockchain.hashrate} />
         <Link href={`/difficulty`} className="block">
           <Stat 
-            title="Difficulty" 
+            title={t("blockchain.difficulty")} 
             value={mockBlockchain.difficulty} 
             className="hover:bg-muted/50 rounded-md p-2 -m-2 transition-colors cursor-pointer"
           />
         </Link>
         <Link href={`/inflation`} className="block">
           <Stat 
-            title="Outstanding" 
+            title={t("blockchain.outstanding")} 
             value={mockBlockchain.outstanding} 
             className="hover:bg-muted/50 rounded-md p-2 -m-2 transition-colors cursor-pointer"
           />
@@ -153,81 +164,81 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
 
       {/* TABS */}
       <div className="flex gap-4 border-b mb-8">
-        <TabButton active={tab === "blocks"} onClick={() => setTab("blocks")}>Latest Blocks</TabButton>
-        <TabButton active={tab === "richlist"} onClick={() => setTab("richlist")}>Rich List</TabButton>
-        <TabButton active={tab === "overview"} onClick={() => setTab("overview")}>Overview</TabButton>
-        <TabButton active={tab === "extraction"} onClick={() => setTab("extraction")}>Extraction</TabButton>
-        <TabButton active={tab === "network"} onClick={() => setTab("network")}>Network</TabButton>
-        <TabButton active={tab === "market"} onClick={() => setTab("market")}>Market</TabButton>
-        <TabButton active={tab === "about"} onClick={() => setTab("about")}>About</TabButton>
+        <TabButton active={tab === "blocks"} onClick={() => setTab("blocks")}>{t("blockchain.latest_blocks")}</TabButton>
+        <TabButton active={tab === "richlist"} onClick={() => setTab("richlist")}>{t("blockchain.rich_list")}</TabButton>
+        <TabButton active={tab === "overview"} onClick={() => setTab("overview")}>{t("blockchain.overview")}</TabButton>
+        <TabButton active={tab === "extraction"} onClick={() => setTab("extraction")}>{t("blockchain.extraction")}</TabButton>
+        <TabButton active={tab === "network"} onClick={() => setTab("network")}>{t("blockchain.network")}</TabButton>
+        <TabButton active={tab === "market"} onClick={() => setTab("market")}>{t("blockchain.market")}</TabButton>
+        <TabButton active={tab === "about"} onClick={() => setTab("about")}>{t("blockchain.about")}</TabButton>
       </div>
 
       {/* TAB CONTENT */}
       {tab === "blocks" && (
         <>
-          <SectionTitle title="Latest BTC Blocks" />
-          <TableLatestBlocks blockchainId={params.id} />
+          <SectionTitle title={t("blockchain.latest_btc_blocks")} />
+          <TableLatestBlocks blockchainId={params.id} t={t} />
         </>
       )}
 
       {tab === "richlist" && (
         <>
-          <SectionTitle title="Richest BTC Addresses" />
-          <TableRichList />
+          <SectionTitle title={t("blockchain.richest_btc_addresses")} />
+          <TableRichList t={t} />
         </>
       )}
 
       {tab === "overview" && (
         <>
-          <SectionTitle title="Overview (Daily Stats)" />
-          <TableOverview />
+          <SectionTitle title={t("blockchain.overview_daily_stats")} />
+          <TableOverview t={t} />
         </>
       )}
 
       {tab === "extraction" && (
         <>
-          <SectionTitle title="Hashrate Distribution" />
-          <TableExtraction />
+          <SectionTitle title={t("blockchain.hashrate_distribution")} />
+          <TableExtraction t={t} />
         </>
       )}
 
       {tab === "network" && (
         <>
-          <SectionTitle title="Network Clients (Dummy Data)" />
-          <TableNetwork />
+          <SectionTitle title={t("blockchain.network_clients")} />
+          <TableNetwork t={t} />
         </>
       )}
 
       {tab === "market" && (
         <>
-          <SectionTitle title="Markets & Exchanges" />
-          <TableMarket />
+          <SectionTitle title={t("blockchain.markets_exchanges")} />
+          <TableMarket t={t} />
         </>
       )}
 
       {tab === "difficulty" && (
         <div className="space-y-6">
-          <SectionTitle title="Network Difficulty" />
+          <SectionTitle title={t("blockchain.network_difficulty")} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="text-lg font-semibold mb-2">Current Difficulty</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("blockchain.current_difficulty")}</h3>
               <p className="text-3xl font-bold">149.30 T</p>
               <p className="text-muted-foreground mt-2">
-                The current mining difficulty of the Bitcoin network
+                {translateWithParams(t("blockchain.current_difficulty_desc"), { currency: mockBlockchain.symbol })}
               </p>
             </div>
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="text-lg font-semibold mb-2">Outstanding Supply</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("blockchain.outstanding_supply")}</h3>
               <p className="text-3xl font-bold">19,958,099 BTC</p>
               <p className="text-muted-foreground mt-2">
-                Total number of Bitcoins mined so far
+                {translateWithParams(t("blockchain.outstanding_supply_desc"), { currency: mockBlockchain.symbol })}
               </p>
             </div>
           </div>
           <div className="bg-muted/30 p-6 rounded-lg border">
-            <h3 className="text-lg font-semibold mb-4">Difficulty Chart</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("blockchain.difficulty_chart")}</h3>
             <div className="h-80 bg-muted/50 rounded-lg flex items-center justify-center">
-              <p className="text-muted-foreground">Difficulty chart will be displayed here</p>
+              <p className="text-muted-foreground">{t("blockchain.difficulty_chart_placeholder")}</p>
             </div>
           </div>
         </div>
@@ -235,27 +246,27 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
 
       {tab === "inflation" && (
         <div className="space-y-6">
-          <SectionTitle title="Inflation & Supply" />
+          <SectionTitle title={t("blockchain.inflation_supply")} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="text-lg font-semibold mb-2">Current Inflation Rate</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("blockchain.current_inflation_rate")}</h3>
               <p className="text-3xl font-bold">~1.8%</p>
               <p className="text-muted-foreground mt-2">
-                Annual inflation rate of Bitcoin
+                {translateWithParams(t("blockchain.current_inflation_desc"), { currency: mockBlockchain.symbol })}
               </p>
             </div>
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="text-lg font-semibold mb-2">Next Halving</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("blockchain.next_halving")}</h3>
               <p className="text-3xl font-bold">~April 2024</p>
               <p className="text-muted-foreground mt-2">
-                Estimated date of next block reward halving
+                {t("blockchain.next_halving_desc")}
               </p>
             </div>
           </div>
           <div className="bg-muted/30 p-6 rounded-lg border">
-            <h3 className="text-lg font-semibold mb-4">Inflation Chart</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("blockchain.inflation_chart")}</h3>
             <div className="h-80 bg-muted/50 rounded-lg flex items-center justify-center">
-              <p className="text-muted-foreground">Inflation chart will be displayed here</p>
+              <p className="text-muted-foreground">{t("blockchain.inflation_chart_placeholder")}</p>
             </div>
           </div>
         </div>
@@ -263,8 +274,8 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
 
       {tab === "about" && (
         <>
-          <SectionTitle title="About Bitcoin" />
-          <TableAbout />
+          <SectionTitle title={t("blockchain.about_bitcoin")} />
+          <TableAbout t={t} />
         </>
       )}
     </div>
@@ -275,18 +286,18 @@ export default function BlockchainExplorer({ params }: { params: { id: string } 
 // TABLE COMPONENTS
 // ---------------------------------------------------------
 
-function TableLatestBlocks({ blockchainId }: { blockchainId: string }) {
+function TableLatestBlocks({ blockchainId, t }: { blockchainId: string; t: (key: string) => string }) {
   return (
     <div className="overflow-x-auto mb-16">
       <table className="w-full text-sm">
         <thead className="border-b text-muted-foreground">
           <tr>
-            <th className="py-2">Block Height</th>
-            <th>Age</th>
-            <th>Transactions</th>
-            <th>Value Out</th>
-            <th>Difficulty</th>
-            <th>Extracted By</th>
+            <th className="py-2">{t("blockchain.block_height")}</th>
+            <th>{t("blockchain.age")}</th>
+            <th>{t("blockchain.transactions")}</th>
+            <th>{t("blockchain.value_out")}</th>
+            <th>{t("blockchain.difficulty_column")}</th>
+            <th>{t("blockchain.extracted_by")}</th>
           </tr>
         </thead>
         <tbody>
@@ -310,17 +321,17 @@ function TableLatestBlocks({ blockchainId }: { blockchainId: string }) {
   );
 }
 
-function TableRichList() {
+function TableRichList({ t }: { t: (key: string) => string }) {
   return (
     <div className="overflow-x-auto mb-16">
       <table className="w-full text-sm">
         <thead className="border-b text-muted-foreground">
           <tr>
-            <th className="py-2">Rank</th>
-            <th>Address</th>
-            <th>Amount</th>
-            <th>Percent</th>
-            <th>Last Change</th>
+            <th className="py-2">{t("blockchain.rank")}</th>
+            <th>{t("blockchain.address")}</th>
+            <th>{t("blockchain.amount")}</th>
+            <th>{t("blockchain.percent")}</th>
+            <th>{t("blockchain.last_change")}</th>
           </tr>
         </thead>
         <tbody>
@@ -339,20 +350,20 @@ function TableRichList() {
   );
 }
 
-function TableOverview() {
+function TableOverview({ t }: { t: (key: string) => string }) {
   return (
     <div className="overflow-x-auto mb-16">
       <table className="w-full text-sm">
         <thead className="border-b text-muted-foreground">
           <tr>
-            <th className="py-2">Date / Time</th>
-            <th>Blocks</th>
-            <th>Height</th>
-            <th>Interval</th>
-            <th>Transactions</th>
-            <th>Value Out</th>
-            <th>Difficulty</th>
-            <th>Generated</th>
+            <th className="py-2">{t("blockchain.date_time")}</th>
+            <th>{t("blockchain.blocks")}</th>
+            <th>{t("blockchain.height")}</th>
+            <th>{t("blockchain.interval")}</th>
+            <th>{t("blockchain.transactions")}</th>
+            <th>{t("blockchain.value_out")}</th>
+            <th>{t("blockchain.difficulty_column")}</th>
+            <th>{t("blockchain.generated")}</th>
           </tr>
         </thead>
         <tbody>
@@ -374,16 +385,16 @@ function TableOverview() {
   );
 }
 
-function TableExtraction() {
+function TableExtraction({ t }: { t: (key: string) => string }) {
   return (
     <div className="overflow-x-auto mb-16">
       <table className="w-full text-sm">
         <thead className="border-b text-muted-foreground">
           <tr>
-            <th className="py-2">Rank</th>
-            <th>Pool / Miner</th>
-            <th>Last 100</th>
-            <th>Last 1000</th>
+            <th className="py-2">{t("blockchain.rank")}</th>
+            <th>{t("blockchain.pool_miner")}</th>
+            <th>{t("blockchain.last_100")}</th>
+            <th>{t("blockchain.last_1000")}</th>
           </tr>
         </thead>
         <tbody>
@@ -401,16 +412,16 @@ function TableExtraction() {
   );
 }
 
-function TableNetwork() {
+function TableNetwork({ t }: { t: (key: string) => string }) {
   return (
     <div className="overflow-x-auto mb-16">
       <table className="w-full text-sm">
         <thead className="border-b text-muted-foreground">
           <tr>
-            <th className="py-2">Rank</th>
-            <th>Client</th>
-            <th>Node Count</th>
-            <th>Share</th>
+            <th className="py-2">{t("blockchain.rank")}</th>
+            <th>{t("blockchain.client")}</th>
+            <th>{t("blockchain.node_count")}</th>
+            <th>{t("blockchain.share")}</th>
           </tr>
         </thead>
         <tbody>
@@ -432,7 +443,7 @@ function TableNetwork() {
 // NEW MARKET SECTION
 // ---------------------------------------------------------
 
-function TableMarket() {
+function TableMarket({ t }: { t: (key: string) => string }) {
   const markets = [
     { exchange: 'Binance', pair: 'USDT', price: '$88,952.00', volume: '$2,573,728.65', share: '11.80%' },
     { exchange: 'Coinbase', pair: 'USDT', price: '$88,945.20', volume: '$1,845,321.45', share: '8.45%' },
@@ -445,17 +456,17 @@ function TableMarket() {
     <div className="mb-16">
       <div className="bg-muted/30 rounded-lg border overflow-hidden">
         <div className="bg-muted px-4 py-2 border-b">
-          <h3 className="font-semibold">Markets</h3>
+          <h3 className="font-semibold">{t("blockchain.markets")}</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="border-b text-muted-foreground">
               <tr>
-                <th className="text-left p-3">Exchange</th>
-                <th className="text-left p-3">Markets</th>
-                <th className="text-right p-3">USD Price</th>
-                <th className="text-right p-3">24h Volume</th>
-                <th className="text-right p-3">Share</th>
+                <th className="text-left p-3">{t("blockchain.exchange")}</th>
+                <th className="text-left p-3">{t("blockchain.markets")}</th>
+                <th className="text-right p-3">{t("blockchain.usd_price")}</th>
+                <th className="text-right p-3">{t("blockchain.volume_24h")}</th>
+                <th className="text-right p-3">{t("blockchain.share")}</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -487,7 +498,7 @@ function TableMarket() {
 // ABOUT SECTION
 // ---------------------------------------------------------
 
-function TableAbout() {
+function TableAbout({ t }: { t: (key: string) => string }) {
   return (
     <div className="mb-16">
       <div className="flex flex-col md:flex-row gap-6">
@@ -495,31 +506,31 @@ function TableAbout() {
         <div className="flex-1">
           <div className="bg-muted/30 rounded-lg border overflow-hidden">
             <div className="bg-muted px-4 py-2 border-b">
-              <h3 className="font-semibold">Information</h3>
+              <h3 className="font-semibold">{t("blockchain.information")}</h3>
             </div>
             <div className="divide-y">
               <div className="flex p-4">
-                <div className="w-1/3 text-muted-foreground">Name (Tag)</div>
+                <div className="w-1/3 text-muted-foreground">{t("blockchain.name_tag")}</div>
                 <div className="w-2/3 font-medium">Bitcoin (BTC)</div>
               </div>
               <div className="flex p-4">
-                <div className="w-1/3 text-muted-foreground">Algorithm</div>
+                <div className="w-1/3 text-muted-foreground">{t("blockchain.algorithm")}</div>
                 <div className="w-2/3">SHA-256</div>
               </div>
               <div className="flex p-4">
-                <div className="w-1/3 text-muted-foreground">Wallet Version</div>
+                <div className="w-1/3 text-muted-foreground">{t("blockchain.wallet_version")}</div>
                 <div className="w-2/3">v26.0</div>
               </div>
               <div className="flex p-4">
-                <div className="w-1/3 text-muted-foreground">Social Nets</div>
+                <div className="w-1/3 text-muted-foreground">{t("blockchain.social_nets")}</div>
                 <div className="w-2/3 flex gap-2">
-                  <a href="#" className="text-primary hover:underline">Website</a>
+                  <a href="#" className="text-primary hover:underline">{t("blockchain.visit_website")}</a>
                   <a href="#" className="text-primary hover:underline">Twitter</a>
                   <a href="#" className="text-primary hover:underline">GitHub</a>
                 </div>
               </div>
               <div className="flex p-4">
-                <div className="w-1/3 text-muted-foreground">First block</div>
+                <div className="w-1/3 text-muted-foreground">{t("blockchain.first_block")}</div>
                 <div className="w-2/3">2009-01-03 19:15:05</div>
               </div>
             </div>
@@ -530,7 +541,7 @@ function TableAbout() {
         <div className="w-full md:w-64">
           <div className="bg-muted/30 rounded-lg border overflow-hidden h-full">
             <div className="bg-muted px-4 py-2 border-b">
-              <h3 className="font-semibold">Logo</h3>
+              <h3 className="font-semibold">{t("blockchain.logo")}</h3>
             </div>
             <div className="p-6 flex items-center justify-center">
               <div className="w-32 h-32 rounded-full bg-orange-100 flex items-center justify-center">
@@ -575,3 +586,5 @@ function Stat({ title, value, className = '' }: { title: string; value: string; 
 function SectionTitle({ title }: { title: string }) {
   return <h2 className="text-xl font-semibold mb-4 mt-6">{title}</h2>;
 }
+
+

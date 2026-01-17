@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Search, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { siteConfig } from "@/config/Site";
+import { useLanguage } from "@/contexts/language-context";
 
 interface Blockchain {
   id: number;
@@ -385,6 +386,7 @@ const blockchains: Blockchain[] = [
 const ITEMS_PER_PAGE = 10;
 
 export default function BlockchainsPage() {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showDetails, setShowDetails] = useState<number | null>(null);
@@ -409,7 +411,7 @@ export default function BlockchainsPage() {
       <div className="container mx-auto px-4 py-6">
         <div className="mb-6 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Blockchains</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("blockchain.title")}</h1>
           </div>
           <div className="relative w-64">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -418,7 +420,7 @@ export default function BlockchainsPage() {
             <input
               type="text"
               className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Search..."
+              placeholder={t("blockchain.search")}
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -434,13 +436,13 @@ export default function BlockchainsPage() {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Crypto-currency</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Block Height</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Age</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Transactions</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Difficulty</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Market Cap</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.crypto_currency")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.block_height")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.age")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.transactions")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.difficulty_column")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.price")}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{t("blockchain.market_cap_column")}</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -489,11 +491,10 @@ export default function BlockchainsPage() {
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Showing <span className="font-medium">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to{' '}
-                  <span className="font-medium">
-                    {Math.min(currentPage * ITEMS_PER_PAGE, filteredBlockchains.length)}
-                  </span>{' '}
-                  of <span className="font-medium">{filteredBlockchains.length}</span> results
+                  {t("blockchain.showing_results")
+                    .replace('{{start}}', String((currentPage - 1) * ITEMS_PER_PAGE + 1))
+                    .replace('{{end}}', String(Math.min(currentPage * ITEMS_PER_PAGE, filteredBlockchains.length)))
+                    .replace('{{total}}', String(filteredBlockchains.length))}
                 </p>
               </div>
               <div>
@@ -551,15 +552,14 @@ export default function BlockchainsPage() {
 
         <div className="mt-8 bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
           <div className="px-6 py-5 border-b">
-            <h3 className="text-lg font-medium">Disclaimer</h3>
+            <h3 className="text-lg font-medium">{t("blockchain.disclaimer")}</h3>
           </div>
           <div className="px-6 py-5">
             <p className="text-muted-foreground mb-4">
-              This site provides blockchain explorers for several crypto-currencies.
-              We do not provide any currency exchange, wallet, or money services. We only present public blockchain data.
+              {t("blockchain.disclaimer_text")}
             </p>
             <p className="text-muted-foreground">
-              Please review our full <a href="/terms" className="text-primary hover:underline font-medium">Terms of Service</a> for more information.
+              Please review our full <a href="/terms" className="text-primary hover:underline font-medium">{t("blockchain.terms_of_service")}</a> for more information.
             </p>
           </div>
         </div>

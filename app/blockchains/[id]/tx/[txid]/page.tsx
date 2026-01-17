@@ -1,5 +1,8 @@
+'use client';
+
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 
 const getTxDetails = (txid: string) => {
   const tx = {
@@ -30,11 +33,12 @@ export default function TxPage({
 }: {
   params: { id: string; txid: string };
 }) {
+  const { t } = useLanguage();
   const tx = getTxDetails(params.txid);
 
   if (!tx)
     return (
-      <div className="p-10">Transaction not found: {params.txid}</div>
+      <div className="p-10">{t("blockchain.transaction_not_found")}: {params.txid}</div>
     );
 
   return (
@@ -43,16 +47,16 @@ export default function TxPage({
         href={`/blockchains/${params.id}/blocks/${tx.block_height}`}
         className="inline-flex items-center text-primary hover:underline mb-6"
       >
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Block
+        <ArrowLeft className="mr-2 h-4 w-4" /> {t("blockchain.back_to_block")}
       </Link>
 
-      <h1 className="text-2xl font-bold mb-4">Transaction Details</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("blockchain.transaction_details")}</h1>
 
       <div className="bg-muted/30 border p-6 rounded-lg mb-6">
-        <p className="text-muted-foreground">Hash:</p>
+        <p className="text-muted-foreground">{t("blockchain.hash")}:</p>
         <p className="font-mono break-all mb-4">{params.txid}</p>
 
-        <p className="text-muted-foreground">Included in Block:</p>
+        <p className="text-muted-foreground">{t("blockchain.included_in_block")}:</p>
         <Link
           href={`/blockchains/${params.id}/blocks/${tx.block_height}`}
           className="text-primary font-mono"
@@ -62,7 +66,7 @@ export default function TxPage({
       </div>
 
       {/* Inputs */}
-      <h2 className="font-semibold text-xl mb-3">Inputs</h2>
+      <h2 className="font-semibold text-xl mb-3">{t("blockchain.inputs")}</h2>
       <div className="border rounded-lg bg-muted/30 divide-y">
         {tx.inputs.map((input, i) => (
           <div key={i} className="p-4 flex justify-between">
@@ -73,7 +77,7 @@ export default function TxPage({
       </div>
 
       {/* Outputs */}
-      <h2 className="font-semibold text-xl mt-6 mb-3">Outputs</h2>
+      <h2 className="font-semibold text-xl mt-6 mb-3">{t("blockchain.outputs")}</h2>
       <div className="border rounded-lg bg-muted/30 divide-y">
         {tx.outputs.map((output, i) => (
           <div key={i} className="p-4 flex justify-between">

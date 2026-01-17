@@ -8,7 +8,9 @@ import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import * as Sheet from "@/components/ui/sheet";
+import { useLanguage } from "@/contexts/language-context";
 
 interface NavbarProps {
   className?: string;
@@ -16,11 +18,12 @@ interface NavbarProps {
 
 export function Navbar({ className }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const navigationItems = [
-    { href: "/blockchains", label: "Blockchains" },
-    { href: "/faq", label: "FAQ" },
-    { href: "/api", label: "API" },
+    { href: "/blockchains", label: t("navigation.blockchains") || "Blockchains" },
+    { href: "/faq", label: t("navigation.faq") || "FAQ" },
+    { href: "/api", label: t("navigation.api") || "API" },
   ];
 
   return (
@@ -82,6 +85,7 @@ export function Navbar({ className }: NavbarProps) {
               </svg>
             </button>
 
+            <LanguageToggle />
             <ThemeToggle />
 
             {/* Mobile Menu Button */}
