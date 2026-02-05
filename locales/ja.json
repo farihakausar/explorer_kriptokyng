@@ -465,7 +465,8 @@
     "exchange": "取引所",
     "usd_price": "USD価格",
     "volume_24h": "24時間ボリューム",
-    "transaction_not_found": "トランザクションが見つかりません"
+    "transaction_not_found": "トランザクションが見つかりません",
+    "no_data_available": "利用可能なデータがありません"
   },
   "footer": {
     "copyright": "© 2026 kriptokyng. すべての権利が保護されています。",

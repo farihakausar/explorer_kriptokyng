@@ -465,7 +465,9 @@
     "exchange": "Échange",
     "usd_price": "Prix en USD",
     "volume_24h": "Volume 24h",
-    "transaction_not_found": "Transaction introuvable"
+    "transaction_not_found": "Transaction introuvable",
+    "no_data_available": "Aucune donnée disponible",
+    "loading_data": "Chargement des données..."
   },
   "footer": {
     "copyright": "© 2026 kriptokyng. Tous droits réservés.",

@@ -465,7 +465,8 @@
     "exchange": "البورصة",
     "usd_price": "سعر الدولار الأمريكي",
     "volume_24h": "الحجم 24 ساعة",
-    "transaction_not_found": "لم يتم العثور على المعاملة"
+    "transaction_not_found": "لم يتم العثور على المعاملة",
+    "no_data_available": "لا توجد بيانات متاحة"
   },
   "footer": {
     "copyright": "© 2026 kriptokyng. جميع الحقوق محفوظة.",

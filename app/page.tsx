@@ -5,14 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle, ChevronRight, Users, Cpu, Database } from "lucide-react";
 import { siteConfig } from "@/config/Site";
 import { useLanguage } from "@/contexts/language-context";
-
-// Simple static data
-const stats = {
-  totalMiners: 1254,
-  totalHashrate: 125,
-  totalPaid: 0,
-  totalBlocks: 12456
-};
+import { useHomeStats } from "@/lib/hooks/use-home-stats";
 import {
   Card,
   CardContent,
@@ -36,9 +29,15 @@ import BlockchainsPage from "./blockchains/page";
 
 
 export default function HomePage() {
-  // Simple static data
-  const { totalMiners, totalHashrate, totalPaid, totalBlocks } = stats;
+  const { data: stats, isLoading, error } = useHomeStats();
   const { t } = useLanguage();
+  
+  // Use fetched data or fallback to static values
+  const totalMiners = stats?.totalMiners || 1254;
+  const totalHashrate = stats?.totalHashrate || 125;
+  const hashrateUnit = stats?.hashrateUnit || "GH/s";
+  const totalBlocks = stats?.totalBlocks || 12456;
+  const uptime = stats?.uptime || "99.9%";
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -68,7 +67,7 @@ export default function HomePage() {
       <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
         <Cpu className="h-6 w-6 text-muted-foreground mb-2" />
         <h3 className="text-sm font-medium">{t("home.stats.hashrate")}</h3>
-        <p className="mt-2 text-2xl font-bold">{totalHashrate} GH/s</p>
+        <p className="mt-2 text-2xl font-bold">{totalHashrate.toFixed(2)} {hashrateUnit}</p>
       </div>
 
       <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
@@ -80,7 +79,7 @@ export default function HomePage() {
       <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
         <CheckCircle className="h-6 w-6 text-muted-foreground mb-2" />
         <h3 className="text-sm font-medium">{t("home.stats.uptime")}</h3>
-        <p className="mt-2 text-2xl font-bold">99.9%</p>
+        <p className="mt-2 text-2xl font-bold">{uptime}</p>
       </div>
 
     </div>

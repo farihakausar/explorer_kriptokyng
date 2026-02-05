@@ -461,7 +461,9 @@
     "exchange": "Exchange",
     "usd_price": "USD Price",
     "volume_24h": "24h Volume",
-    "transaction_not_found": "Transaction not found"
+    "transaction_not_found": "Transaction not found",
+    "no_data_available": "No data available",
+    "loading_data": "Loading data..."
   },
   "footer": {
     "copyright": "© 2026 kriptokyng. All rights reserved.",

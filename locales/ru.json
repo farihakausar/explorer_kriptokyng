@@ -465,7 +465,9 @@
     "exchange": "Биржа",
     "usd_price": "Цена в USD",
     "volume_24h": "Объем за 24ч",
-    "transaction_not_found": "Транзакция не найдена"
+    "transaction_not_found": "Транзакция не найдена",
+    "no_data_available": "Нет доступных данных",
+    "loading_data": "Загрузка данных..."
   },
   "footer": {
     "copyright": "© 2026 kriptokyng. Все права защищены.",
