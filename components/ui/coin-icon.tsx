@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Coins } from "lucide-react";
 
 interface CoinIconProps {
   symbol: string;
@@ -14,8 +13,8 @@ interface CoinIconProps {
 export function CoinIcon({ symbol, name, size = 24, className = "" }: CoinIconProps) {
   const [error, setError] = useState(false);
   
-  // Use a direct path to image files (bypassing the API route)
-  const iconPath = `/api/coin?symbol=${symbol.toLowerCase()}`;
+  // Use direct path to public directory
+  const iconPath = `/coins/${symbol.toLowerCase()}.webp`;
 
   if (error) {
     // Get first 2-3 characters of the coin name or symbol
@@ -46,7 +45,13 @@ export function CoinIcon({ symbol, name, size = 24, className = "" }: CoinIconPr
       className={`rounded-full ${className}`}
       quality={100}
       unoptimized={true}
-      onError={() => setError(true)}
+      onError={(e) => {
+        console.error(`Failed to load coin icon: ${iconPath}`, e.currentTarget.src);
+        setError(true);
+      }}
+      onLoad={(e) => {
+        console.log(`Successfully loaded coin icon: ${e.currentTarget.src}`);
+      }}
     />
   );
 }

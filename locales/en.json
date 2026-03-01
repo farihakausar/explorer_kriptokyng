@@ -54,11 +54,12 @@
   "home": {
     "welcome": "Welcome to Kriptokyng Explorer",
     "tagline": "The most efficient and reliable mining services",
+    "subtitle": "Real-time blockchain explorer with live mining pool statistics and global network insights",
     "stats": {
-      "miners": "Miners",
-      "hashrate": "Hashrate",
-      "blocks_found": "Blocks Found",
-      "uptime": "Uptime"
+      "miners": "Active Miners",
+      "hashrate": "Current Hashrate",
+      "blocks_found": "Total Blocks",
+      "uptime": "Network Uptime"
     }
   },
   "blocks": {
@@ -380,8 +381,8 @@
     "network": "Network",
     "market": "Market",
     "about": "About",
-    "latest_btc_blocks": "Latest BTC Blocks",
-    "richest_btc_addresses": "Richest BTC Addresses",
+    "latest_btc_blocks": "Latest {{coin}} Blocks",
+    "richest_btc_addresses": "Richest {{coin}} Addresses",
     "overview_daily_stats": "Overview (Daily Stats)",
     "hashrate_distribution": "Hashrate Distribution",
     "network_clients": "Network Clients",

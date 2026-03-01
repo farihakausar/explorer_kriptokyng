@@ -54,11 +54,12 @@
   "home": {
     "welcome": "Bienvenue sur Kriptokyng Explorer",
     "tagline": "Les services miniers les plus efficaces et fiables",
+    "subtitle": "Explorateur de blockchain en temps réel avec des statistiques en direct des pools de minage et des informations sur le réseau mondial",
     "stats": {
-      "miners": "Mineurs",
-      "hashrate": "Taux de hachage",
-      "blocks_found": "Blocs trouvés",
-      "uptime": "Disponibilité"
+      "miners": "Mineurs actifs",
+      "hashrate": "Taux de hachage actuel",
+      "blocks_found": "Total des blocs",
+      "uptime": "Disponibilité du réseau"
     }
   },
   "blocks": {
@@ -384,8 +385,8 @@
     "network": "Réseau",
     "market": "Marché",
     "about": "À propos",
-    "latest_btc_blocks": "Derniers blocs BTC",
-    "richest_btc_addresses": "Adresses BTC les plus riches",
+    "latest_btc_blocks": "Derniers blocs {{coin}}",
+    "richest_btc_addresses": "Adresses {{coin}} les plus riches",
     "overview_daily_stats": "Vue d'ensemble (statistiques quotidiennes)",
     "hashrate_distribution": "Distribution du débit de hachage",
     "network_clients": "Clients réseau",

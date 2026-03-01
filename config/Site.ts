@@ -35,7 +35,7 @@ export type SiteConfig = {
 
 export const siteConfig: SiteConfig = {
   name: "Explorer",
-  tagline: " Kriptokyng",
+  tagline: "Kriptokyng",
   mainName: "Kriptokyng",
   description: " Kriptokyng provides a fast, reliable, and intuitive blockchain explorer experience — track your transactions, blocks, and network performance in real-time.",
   url: "https://kriptokyng.xyz",

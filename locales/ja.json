@@ -54,11 +54,12 @@
   "home": {
     "welcome": "Kriptokyng Explorerへようこそ",
     "tagline": "Kriptokyngのための最も効率的で信頼性の高いマイニングサービス",
+    "subtitle": "リアルタイムブロックチェーンエクスプローラーとライブマイニングプール統計、グローバルネットワークインサイト",
     "stats": {
-      "miners": "マイナー",
-      "hashrate": "ハッシュレート",
-      "blocks_found": "発見したブロック",
-      "uptime": "稼働時間"
+      "miners": "アクティブマイナー",
+      "hashrate": "現在のハッシュレート",
+      "blocks_found": "総ブロック数",
+      "uptime": "ネットワーク稼働時間"
     }
   },
   "blocks": {
@@ -384,8 +385,8 @@
     "network": "ネットワーク",
     "market": "市場",
     "about": "概要",
-    "latest_btc_blocks": "最新のBTCブロック",
-    "richest_btc_addresses": "最も豊かなBTCアドレス",
+    "latest_btc_blocks": "最新の{{coin}}ブロック",
+    "richest_btc_addresses": "最も豊かな{{coin}}アドレス",
     "overview_daily_stats": "概要（日次統計）",
     "hashrate_distribution": "ハッシュレート分布",
     "network_clients": "ネットワーククライアント",

@@ -54,11 +54,12 @@
   "home": {
     "welcome": "Добро пожаловать в Kriptokyng Explorer",
     "tagline": "Самые эффективные и надежные майнинговые услуги",
+    "subtitle": "Блокчейн-исследователь в реальном времени со статистикой майнинг-пулов и глобальной информацией о сети",
     "stats": {
-      "miners": "Майнеры",
-      "hashrate": "Хэшрейт",
-      "blocks_found": "Найдено блоков",
-      "uptime": "Время работы"
+      "miners": "Активные майнеры",
+      "hashrate": "Текущий хэшрейт",
+      "blocks_found": "Всего блоков",
+      "uptime": "Время работы сети"
     }
   },
   "blocks": {
@@ -384,8 +385,8 @@
     "network": "Сеть",
     "market": "Рынок",
     "about": "О проекте",
-    "latest_btc_blocks": "Последние блоки BTC",
-    "richest_btc_addresses": "Самые богатые адреса BTC",
+    "latest_btc_blocks": "Последние блоки {{coin}}",
+    "richest_btc_addresses": "Самые богатые адреса {{coin}}",
     "overview_daily_stats": "Обзор (ежедневная статистика)",
     "hashrate_distribution": "Распределение хешрейта",
     "network_clients": "Сетевые клиенты",

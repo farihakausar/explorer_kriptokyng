@@ -8,6 +8,13 @@ import { useBlockchainDetail, useBlockchainBlocks, useBlockchainRichList, useBlo
 import { Stat } from "@/components/ui/stat";
 import { TabButton } from "@/components/ui/tab-button";
 import { SectionTitle } from "@/components/ui/section-title";
+import { TableLatestBlocks } from "@/components/ui/table-latest-blocks";
+import { TableRichList } from "@/components/ui/table-rich-list";
+import { TableOverview } from "@/components/ui/table-overview";
+import { TableExtraction } from "@/components/ui/table-extraction";
+import { TableNetwork } from "@/components/ui/table-network";
+import { TableMarket } from "@/components/ui/table-market";
+import { TableAbout } from "@/components/ui/table-about";
 
 // Helper function to translate with parameters
 const translateWithParams = (str: string, params: Record<string, string>): string => {
@@ -124,14 +131,14 @@ export default function BlockchainExplorerClient({ blockchainId, params }: Block
       {/* TAB CONTENT */}
       {tab === "blocks" && (
         <>
-          <SectionTitle title={t("blockchain.latest_btc_blocks")} />
-          <TableLatestBlocks blockchainId={params.id} t={t} />
+          <SectionTitle title={translateWithParams(t("blockchain.latest_btc_blocks"), { coin: blockchain?.symbol || 'BTC' })} />
+          <TableLatestBlocks blockchainId={params.id} t={t} blocks={blocks} />
         </>
       )}
 
       {tab === "richlist" && (
         <>
-          <SectionTitle title={t("blockchain.richest_btc_addresses")} />
+          <SectionTitle title={translateWithParams(t("blockchain.richest_btc_addresses"), { coin: blockchain?.symbol || 'BTC' })} />
           <TableRichList t={t} />
         </>
       )}
