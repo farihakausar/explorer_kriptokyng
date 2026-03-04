@@ -6,6 +6,7 @@ import { ArrowRight, CheckCircle, ChevronRight, Users, Cpu, Database } from "luc
 import { siteConfig } from "@/config/Site";
 import { useLanguage } from "@/contexts/language-context";
 import { useHomeStats } from "@/lib/hooks/use-home-stats";
+import { useMinerStats } from "@/lib/hooks/use-miner-stats";
 import {
   Card,
   CardContent,
@@ -19,9 +20,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CoinIcon } from "@/components/ui/coin-icon";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AnimatedHero } from "@/components/motion/animated-hero";
+import { ExplorerAnimatedHero } from "@/components/motion/explorer-animated-hero";
 import NotificationBar from "@/components/ui/notification-bar";
 import { HomeMainSections } from "@/components/home-main-sections";
+import { MinerMapSection } from "@/components/location/miner-map-section";
 import BlockchainsPage from "./blockchains/page";
 
 
@@ -29,64 +31,34 @@ import BlockchainsPage from "./blockchains/page";
 
 
 export default function HomePage() {
-  const { data: stats, isLoading, error } = useHomeStats();
+  const { data: stats, isLoading: statsLoading, error: statsError } = useHomeStats();
+  const { minerStats, isLoading: minerLoading, error: minerError } = useMinerStats();
   const { t } = useLanguage();
   
-  // Use fetched data or fallback to static values
-  const totalMiners = stats?.totalMiners || 1254;
-  const totalHashrate = stats?.totalHashrate || 125;
-  const hashrateUnit = stats?.hashrateUnit || "GH/s";
-  const totalBlocks = stats?.totalBlocks || 12456;
-  const uptime = stats?.uptime || "99.9%";
+  // Use real miner data from Kriptokyng_Pool
+  const totalMiners = minerStats.totalMiners || 1254;
+  const totalHashrate = minerStats.totalHashrate || 125;
+  const hashrateUnit = minerStats.hashrateUnit || "GH/s";
+  const totalBlocks = minerStats.totalBlocks || 12456;
+  const uptime = minerStats.uptime || "99.9%";
+  const totalPaid = minerStats.totalPaid || 0;
+  const pools = minerStats.pools || 0;
+  const countries = minerStats.countries || 0;
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="min-h-screen w-full grid place-items-center mt-5">
-  <div className="w-full px-4 flex flex-col items-center text-center">
+      {/* Animated Hero Section with Pool Stats */}
+      <ExplorerAnimatedHero />
 
-    {/* Hero */}
-    <div className="max-w-3xl space-y-4">
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-        {t("home.welcome")}
-      </h1>
-      <p className="text-gray-500 md:text-xl dark:text-gray-400">
-        {t("home.tagline")}
-      </p>
-    </div>
+      <BlockchainsPage/>
 
-    {/* Stats */}
-    <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 max-w-6xl w-full">
-      
-      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
-        <Users className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-medium">{t("home.stats.miners")}</h3>
-        <p className="mt-2 text-2xl font-bold">{totalMiners.toLocaleString()}</p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
-        <Cpu className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-medium">{t("home.stats.hashrate")}</h3>
-        <p className="mt-2 text-2xl font-bold">{totalHashrate.toFixed(2)} {hashrateUnit}</p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
-        <Database className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-medium">{t("home.stats.blocks_found")}</h3>
-        <p className="mt-2 text-2xl font-bold">{totalBlocks.toLocaleString()}</p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center rounded-lg border bg-card p-6 text-center shadow-sm">
-        <CheckCircle className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-medium">{t("home.stats.uptime")}</h3>
-        <p className="mt-2 text-2xl font-bold">{uptime}</p>
-      </div>
-
-    </div>
-  </div>
-  <BlockchainsPage/>
-</section>
-
+      {/* Global Mining Network Map - Full Width */}
+      <section className="w-full py-0 bg-background/80">
+        <MinerMapSection 
+          title="Global Mining Network"
+          subtitle="Real-time view of miners connected worldwide"
+        />
+      </section>
     </div>
   );
 }

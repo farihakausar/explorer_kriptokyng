@@ -53,7 +53,8 @@
   },
   "home": {
     "welcome": "مرحبًا بك في Kriptokyng Explorer",
-    "tagline": "مجمع التعدين الأكثر كفاءة وموثوقية لـ Kriptokyng",
+    "tagline": "أكثر خدمات التعدين كفاءة وموثوقية",
+    "subtitle": "مستكشف بلوكشين في الوقت الفعلي مع إحصائيات مجمع التعدين المباشرة ورؤى الشبكة العالمية",
     "stats": {
       "miners": "المعدنون",
       "hashrate": "معدل الهاش",
@@ -384,8 +385,8 @@
     "network": "الشبكة",
     "market": "السوق",
     "about": "حول",
-    "latest_btc_blocks": "آخر كتل البيتكوين",
-    "richest_btc_addresses": "عناوين البيتكوين الأكثر ثراءً",
+    "latest_btc_blocks": "آخر كتل {{coin}}",
+    "richest_btc_addresses": "عناوين {{coin}} الأكثر ثراءً",
     "overview_daily_stats": "نظرة عامة (الإحصائيات اليومية)",
     "hashrate_distribution": "توزيع معدل التجزئة",
     "network_clients": "عملاء الشبكة",
